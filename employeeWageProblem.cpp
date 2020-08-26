@@ -1,8 +1,18 @@
 #include <iostream>
+#include <ctime>
+#include <cstdlib>
 
 using namespace std;
 
 int main() {
-cout << "Welcome to employee wage computation problem" << endl;
+	srand(time(0));
+	int present = rand() % 2 +1;
+	if(present == 1){
+		cout<< "Employee is present";
+	}
+	else{
+		cout<< "Employee is absent";
+	}
 return 0;
+
 }
