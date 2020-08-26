@@ -32,21 +32,18 @@ int getEmpHrs() {
 }
 
 int getEmpWage() {
-	srand(time(0));
 
-	for( int day = 0; day < NUMBER_OF_WORKING_DAYS; day++ ) {
+		srand(time(0));
 		getEmpHrs();
 		empWage = empHrs * EMP_RATE_PER_HOUR;
 		totalWage += empWage;
-	}
-	return totalWage;
+		return totalWage;
 }
 
 int main() {
 
-	int workingHrs = getEmpHrs();
-	int wageForMonth = getEmpWage();
-	cout << "Total wage of month is: "<< wageForMonth << endl;
+	int empWage = getEmpWage();
+	cout << "Total wage of month is: "<< empWage << endl;
 
 return 0;
 
