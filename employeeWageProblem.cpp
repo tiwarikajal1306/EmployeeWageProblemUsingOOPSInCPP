@@ -4,9 +4,9 @@
 
 using namespace std;
 
+class EmpWageComputation {
+
 const int EMP_RATE_PER_HOUR = 20;
-const int IS_PART_TIME = 1;
-const int IS_FULL_TIME = 2;
 const int NUMBER_OF_WORKING_DAYS = 20;
 const int MAX_HRS_IN_MONTH = 100;
 
@@ -16,8 +16,12 @@ int empWage = 0;
 int totalEmpWage = 0;
 int totalWorkingDays = 0;
 
+public:
 int getEmpHrs()
 {
+	const int IS_PART_TIME = 1;
+	const int IS_FULL_TIME = 2;
+
 	srand(time(0));
         while (totalEmpHrs < MAX_HRS_IN_MONTH && totalWorkingDays <  NUMBER_OF_WORKING_DAYS) {
                 totalWorkingDays++;
@@ -48,11 +52,12 @@ int getEmpWage()
 	totalEmpWage = totalEmpHrs * EMP_RATE_PER_HOUR;
 	return totalEmpWage;
 }
+};
 
 int main()
 {
-
-	int totalEmpWage1 = getEmpWage();
+	EmpWageComputation wage;
+	int totalEmpWage1 = wage.getEmpWage();
 	cout << "Total wage of employee is: "<< totalEmpWage1 << endl;
 	return 0;
 }
