@@ -91,13 +91,13 @@ void EmpWageComputation::computeEmpWage(EmpWageBuilder empWageBuilder)
 int main()
 {
 	EmpWageComputation empWageComputation;
-	EmpWageBuilder bridgelabz("Bridgelabz", 20, 30, 150);
-	empWageComputation.computeEmpWage(bridgelabz);
+	EmpWageBuilder *emp[2];
+	emp[0] = new EmpWageBuilder("Bridgelabz", 20, 30, 150);
+	empWageComputation.computeEmpWage(*emp[0]);
 
 	sleep(2);
 
-	EmpWageBuilder flipkart("flipkart", 15, 20, 100);
-	EmpWageComputation empWage;
-	empWageComputation.computeEmpWage(flipkart);
+	emp[1] = new EmpWageBuilder("flipkart", 15, 20, 100);
+	empWageComputation.computeEmpWage(*emp[1]);
 	return 0;
 }
