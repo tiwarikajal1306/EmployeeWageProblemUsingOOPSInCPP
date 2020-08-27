@@ -8,32 +8,38 @@
 #include "IEmpWageComputation.h"
 
 using namespace std;
+
 class EmpWageComputation : IEmpWageComputation {
 	int empHrs = 0;
 	int totalEmpHrs = 0;
 	int empWage = 0;
 	int totalEmpWage = 0;
 	int totalWorkingDays = 0;
+	int dailyEmpWage = 0;
+	list<int> dailyWage;
+	list<EmpWageBuilder> employeeData;
+
 	public:
 		void addCompany(EmpWageBuilder empWageBuilder);
-		void computeEmpHour(EmpWageBuilder empWageBuilder);
+		int computeEmpHour(EmpWageBuilder empWageBuilder);
 		void computeEmpWage(EmpWageBuilder empWageBuilder);
 };
 
 void EmpWageComputation :: addCompany(EmpWageBuilder empWageBuilder)
 {
-		list<EmpWageBuilder> employeeData;
 		employeeData.push_back(empWageBuilder);
 }
 
-void EmpWageComputation :: computeEmpHour(EmpWageBuilder empWageBuilder)
+int EmpWageComputation :: computeEmpHour(EmpWageBuilder empWageBuilder)
 {
 	const int IS_PART_TIME = 1;
         const int IS_FULL_TIME = 2;
+	int totalWorkingDays = 0;
+	 int totalEmpHrs = 0;
 
         srand(time(0));
         while (totalEmpHrs < empWageBuilder.getMaxHoursInMonth() && totalWorkingDays <  empWageBuilder.getWorkingDays()) {
-                totalWorkingDays++;
+		totalWorkingDays++;
                 int employee_Check = rand() % 3 + 1;
                 switch( employee_Check ) {
 
@@ -47,13 +53,18 @@ void EmpWageComputation :: computeEmpHour(EmpWageBuilder empWageBuilder)
                         default:
                                 empHrs = 0;
                 }
-                totalEmpHrs += empHrs;
+		dailyEmpWage = empHrs * empWageBuilder.getEmpRatePerHour();
+		cout << "Daily Wage is: " << dailyEmpWage << endl;
+		dailyWage.push_back(dailyEmpWage);
+		totalEmpHrs += empHrs;
         }
+	empWageBuilder.setdailyWage(dailyWage);
+	return totalEmpHrs;
 }
 
 void EmpWageComputation :: computeEmpWage(EmpWageBuilder empWageBuilder)
 {
-	computeEmpHour(empWageBuilder);
+	int totalEmpHrs = computeEmpHour(empWageBuilder);
 	totalEmpWage = totalEmpHrs * empWageBuilder.getEmpRatePerHour();
 	cout << "Total Employee wage for" <<  " " << empWageBuilder.getCompany() << " " << "is: " << totalEmpWage <<endl;
 	addCompany(empWageBuilder);

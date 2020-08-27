@@ -3,8 +3,8 @@
 #include <string>
 #include <unistd.h>
 #include <list>
-using namespace std;
 
+using namespace std;
 
 class EmpWageBuilder {
 private:
@@ -13,6 +13,7 @@ private:
         int maxHoursInMonth;
         string company;
         int totalEmpWage;
+	list<int> dailyWage;
 public:
         EmpWageBuilder(string companyName, int ratePerHour, int workingDays, int hoursInMonth) {
                 this -> company =companyName;
@@ -38,4 +39,8 @@ int getMaxHoursInMonth() {
 string getCompany() {
         return company;
 }
+void setdailyWage( list<int> dailyWage ) {
+	this -> dailyWage = dailyWage;
+}
+
 };
