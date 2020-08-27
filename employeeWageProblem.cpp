@@ -8,7 +8,6 @@
 #include "IEmpWageComputation.h"
 
 using namespace std;
-
 class EmpWageComputation : IEmpWageComputation {
 	int empHrs = 0;
 	int totalEmpHrs = 0;
@@ -48,10 +47,8 @@ void EmpWageComputation :: computeEmpHour(EmpWageBuilder empWageBuilder)
                         default:
                                 empHrs = 0;
                 }
-
                 totalEmpHrs += empHrs;
         }
-
 }
 
 void EmpWageComputation :: computeEmpWage(EmpWageBuilder empWageBuilder)
