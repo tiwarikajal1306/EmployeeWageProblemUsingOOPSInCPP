@@ -4,44 +4,12 @@
 #include <string>
 #include <unistd.h>
 #include <list>
+#include "EmpWageBuilder.h"
+#include "IEmpWageComputation.h"
 
 using namespace std;
 
-class EmpWageBuilder {
-private:
-	int empRatePerHour;
-	int numberOfWorkingDays;
-	int maxHoursInMonth;
-	string company;
-	int totalEmpWage;
-public:
-	EmpWageBuilder(string companyName, int ratePerHour, int workingDays, int hoursInMonth) {
-		this -> company =companyName;
-		this -> empRatePerHour = ratePerHour;
-		this -> numberOfWorkingDays = workingDays;
-		this -> maxHoursInMonth = hoursInMonth;
-}
-void setTotalEmpWage(int totalEmpWage) {
-	this -> totalEmpWage = totalEmpWage;
-}
-int getEmpRatePerHour() {
-	return empRatePerHour;
-}
-int getWorkingDays() {
-	return numberOfWorkingDays;
-}
-int getRatePerHour() {
-	return empRatePerHour;
-}
-int getMaxHoursInMonth() {
-	return maxHoursInMonth;
-}
-string getCompany() {
-	return company;
-}
-};
-
-class EmpWageComputation {
+class EmpWageComputation : IEmpWageComputation {
 	int empHrs = 0;
 	int totalEmpHrs = 0;
 	int empWage = 0;
@@ -49,40 +17,46 @@ class EmpWageComputation {
 	int totalWorkingDays = 0;
 	public:
 		void addCompany(EmpWageBuilder empWageBuilder);
+		void computeEmpHour(EmpWageBuilder empWageBuilder);
 		void computeEmpWage(EmpWageBuilder empWageBuilder);
 };
 
-void EmpWageComputation::addCompany(EmpWageBuilder empWageBuilder)
+void EmpWageComputation :: addCompany(EmpWageBuilder empWageBuilder)
 {
 		list<EmpWageBuilder> employeeData;
 		employeeData.push_back(empWageBuilder);
 }
 
-void EmpWageComputation::computeEmpWage(EmpWageBuilder empWageBuilder)
+void EmpWageComputation :: computeEmpHour(EmpWageBuilder empWageBuilder)
 {
 	const int IS_PART_TIME = 1;
-	const int IS_FULL_TIME = 2;
+        const int IS_FULL_TIME = 2;
 
-	srand(time(0));
+        srand(time(0));
         while (totalEmpHrs < empWageBuilder.getMaxHoursInMonth() && totalWorkingDays <  empWageBuilder.getWorkingDays()) {
                 totalWorkingDays++;
-        	int employee_Check = rand() % 3 + 1;
-		switch( employee_Check ) {
+                int employee_Check = rand() % 3 + 1;
+                switch( employee_Check ) {
 
-			case IS_PART_TIME:
-				empHrs = 4;
-				break;
+                        case IS_PART_TIME:
+                                empHrs = 4;
+                                break;
 
-			case IS_FULL_TIME:
-				empHrs = 8;
-				break;
-			default:
-				empHrs = 0;
-		}
+                        case IS_FULL_TIME:
+                                empHrs = 8;
+                                break;
+                        default:
+                                empHrs = 0;
+                }
 
-		totalEmpHrs += empHrs;
-	}
+                totalEmpHrs += empHrs;
+        }
 
+}
+
+void EmpWageComputation :: computeEmpWage(EmpWageBuilder empWageBuilder)
+{
+	computeEmpHour(empWageBuilder);
 	totalEmpWage = totalEmpHrs * empWageBuilder.getEmpRatePerHour();
 	cout << "Total Employee wage for" <<  " " << empWageBuilder.getCompany() << " " << "is: " << totalEmpWage <<endl;
 	addCompany(empWageBuilder);
