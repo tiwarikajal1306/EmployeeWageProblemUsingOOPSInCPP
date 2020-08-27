@@ -3,39 +3,68 @@
 #include <cstdlib>
 #include <string>
 #include <unistd.h>
+#include <list>
 
 using namespace std;
 
-class EmpWageComputation {
-
+class EmpWageBuilder {
 private:
-int empRatePerHour = 20;
-int numberOfWorkingDays = 20;
-int maxHoursInMonth = 100;
-string company;
-
-int empHrs = 0;
-int totalEmpHrs = 0;
-int empWage = 0;
-int totalEmpWage = 0;
-int totalWorkingDays = 0;
-
+	int empRatePerHour;
+	int numberOfWorkingDays;
+	int maxHoursInMonth;
+	string company;
+	int totalEmpWage;
 public:
-EmpWageComputation(string companyName, int ratePerHour, int workingDays, int hoursInMonth) {
-	this -> company =companyName;
-	this -> empRatePerHour = ratePerHour;
-	this -> numberOfWorkingDays = workingDays;
-	this -> maxHoursInMonth = hoursInMonth;
+	EmpWageBuilder(string companyName, int ratePerHour, int workingDays, int hoursInMonth) {
+		this -> company =companyName;
+		this -> empRatePerHour = ratePerHour;
+		this -> numberOfWorkingDays = workingDays;
+		this -> maxHoursInMonth = hoursInMonth;
+}
+void setTotalEmpWage(int totalEmpWage) {
+	this -> totalEmpWage = totalEmpWage;
+}
+int getEmpRatePerHour() {
+	return empRatePerHour;
+}
+int getWorkingDays() {
+	return numberOfWorkingDays;
+}
+int getRatePerHour() {
+	return empRatePerHour;
+}
+int getMaxHoursInMonth() {
+	return maxHoursInMonth;
+}
+string getCompany() {
+	return company;
+}
+};
+
+class EmpWageComputation {
+	int empHrs = 0;
+	int totalEmpHrs = 0;
+	int empWage = 0;
+	int totalEmpWage = 0;
+	int totalWorkingDays = 0;
+	public:
+		void addCompany(EmpWageBuilder empWageBuilder);
+		void computeEmpWage(EmpWageBuilder empWageBuilder);
+};
+
+void EmpWageComputation::addCompany(EmpWageBuilder empWageBuilder)
+{
+		list<EmpWageBuilder> employeeData;
+		employeeData.push_back(empWageBuilder);
 }
 
-public:
-int getEmpHrs()
+void EmpWageComputation::computeEmpWage(EmpWageBuilder empWageBuilder)
 {
 	const int IS_PART_TIME = 1;
 	const int IS_FULL_TIME = 2;
 
 	srand(time(0));
-        while (totalEmpHrs < maxHoursInMonth && totalWorkingDays <  numberOfWorkingDays) {
+        while (totalEmpHrs < empWageBuilder.getMaxHoursInMonth() && totalWorkingDays <  empWageBuilder.getWorkingDays()) {
                 totalWorkingDays++;
         	int employee_Check = rand() % 3 + 1;
 		switch( employee_Check ) {
@@ -54,30 +83,21 @@ int getEmpHrs()
 		totalEmpHrs += empHrs;
 	}
 
-	return totalEmpHrs;
+	totalEmpWage = totalEmpHrs * empWageBuilder.getEmpRatePerHour();
+	cout << "Total Employee wage for" <<  " " << empWageBuilder.getCompany() << " " << "is: " << totalEmpWage <<endl;
+	addCompany(empWageBuilder);
 }
-
-int getEmpWage()
-{
-
-	int totalEmpHrs = getEmpHrs();
-	totalEmpWage = totalEmpHrs * empRatePerHour;
-	return totalEmpWage;
-}
-};
 
 int main()
 {
-
-	EmpWageComputation bridgelabz("Bridgelabz", 20, 30, 150);
-	int bridgelabzEmpWage = bridgelabz.getEmpWage();
-	cout << "Total wage of Bridgelabz is: "<< bridgelabzEmpWage << endl;
+	EmpWageComputation empWageComputation;
+	EmpWageBuilder bridgelabz("Bridgelabz", 20, 30, 150);
+	empWageComputation.computeEmpWage(bridgelabz);
 
 	sleep(2);
 
-	EmpWageComputation flipkart("flipkart", 15, 20, 100);
-       	int flipkartEmpWage = flipkart.getEmpWage();
-        cout << "Total wage of flipkart is: "<< flipkartEmpWage << endl;
-
+	EmpWageBuilder flipkart("flipkart", 15, 20, 100);
+	EmpWageComputation empWage;
+	empWageComputation.computeEmpWage(flipkart);
 	return 0;
 }
